@@ -27,3 +27,12 @@ def test_끝이_시작보다_빠르면_막는다():
 def test_운영_시간_전에_시작하면_막는다():
     errors = validate(make(start="08:00", end="09:00"), ROOMS, [])
     assert "운영 시간(09:00~18:00) 밖입니다." in errors
+
+
+def test_정원을_넘는_예약은_막는다():
+    errors = validate(make(attendees=5), ROOMS, [])
+    assert "정원을 넘었습니다" in errors
+
+
+def test_정원과_같은_인원은_예약할_수_있다():
+    assert validate(make(attendees=4), ROOMS, []) == []

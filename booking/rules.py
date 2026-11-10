@@ -34,4 +34,8 @@ def validate(new: Reservation, rooms: list[Room], existing: list[Reservation]) -
 
     # TODO: 같은 회의실, 같은 날짜에 시간이 겹치는 예약은 막아야 한다 (현업 요청 1번)
 
+    room = next((room for room in rooms if room.id == new.room_id), None)
+    if room is not None and new.attendees > room.capacity:
+        errors.append("정원을 넘었습니다")
+
     return errors
